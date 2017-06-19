@@ -18,27 +18,35 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  MovieCollector
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  In MovieCollector, we can search and see a list of latest movies with and its detail page with movie name, description, reviews, video optional etc. form database which fetched from themoviedb api.
 
 ## Problem ##
   > Describe the problem your product solves.
+  we can see a latest movies details with reviews and trailers if possible in our app.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  From front end using ajax it will call to server and server will call api and fetch data of latest movies and save it into database. Then depending on get request from client side it will fetch data from database and display it in front end.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  First start with client side react and then make a ajax request to reach to server and fetch data from api and store data into db then depending on get request from client side fetch data from db and dispaly it.
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  react-client/index.jsx
+  
