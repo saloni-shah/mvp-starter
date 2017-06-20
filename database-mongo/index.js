@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/movies');
 
 var db = mongoose.connection;
 
@@ -11,15 +11,22 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var movieSchema = mongoose.Schema({
+  videoId: Number,
+  title: String,
+  vote: Number,
+  image: String,
+  overview: String,
+  release_date: Date,
+  homepage: String,
+  productionCompanies: Array,
+  trailer: String
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Movie = mongoose.model('Movie', movieSchema);
 
 var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
+  Movie.find({}, function(err, items) {
     if(err) {
       callback(err, null);
     } else {
@@ -27,5 +34,5 @@ var selectAll = function(callback) {
     }
   });
 };
-
+module.exports.Movie = Movie;
 module.exports.selectAll = selectAll;

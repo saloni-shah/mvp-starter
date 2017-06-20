@@ -2,21 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import List from './components/List.jsx';
+import ListDetail from './components/ListDetail.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      items: []
+      movies: [],
+      movie: ''
     }
   }
 
-  componentDidMount() {
+  componentDidMount() { 
     $.ajax({
-      url: '/items', 
+      url: '/movies', 
+      type: 'GET',
+      dataType: 'json',
       success: (data) => {
+        console.log(data);
         this.setState({
-          items: data
+          movies: data
         })
       },
       error: (err) => {
@@ -25,10 +30,18 @@ class App extends React.Component {
     });
   }
 
+  handleClick(movie){
+    console.log(movie);
+    this.setState({
+      movie: movie
+    });
+    return (<ListDetail movie={this.state.movie}/>)
+  }
+
   render () {
     return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
+      <h1>Movie Collector</h1>
+      <List handleClick={this.handleClick.bind(this)} movies={this.state.movies}/>
     </div>)
   }
 }

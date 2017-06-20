@@ -1,9 +1,10 @@
 import React from 'react';
 
 const ListItem = (props) => (
-  <div>
-    { props.item.description }
-  </div>
+  <tr onClick={(e) => props.handleClick(props.movie)}>
+    <td>{ props.movie.title }</td>
+    <td>{ props.movie.vote }</td>
+  </tr>
 )
 
 export default ListItem;

@@ -3,9 +3,18 @@ import ListItem from './ListItem.jsx';
 
 const List = (props) => (
   <div>
-    <h4> List Component </h4>
-    There are { props.items.length } items.
-    { props.items.map(item => <ListItem item={item}/>)}
+    There are { props.movies.length } items.
+    <table>
+      <thead>
+        <tr>
+          <th>Movie Name</th>
+          <th>Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+        { props.movies.map(movie => <ListItem handleClick={props.handleClick} key={movie.videoId} movie={movie}/>)}
+      </tbody>
+    </table>
   </div>
 )
 
