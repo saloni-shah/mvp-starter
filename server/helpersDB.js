@@ -28,25 +28,21 @@ module.exports.saveDataIntoDB = function(movies,cb) {
               cb(null,"movies saved successfully in database.......")
             });
           } 
-          // else {
-          //   console.log("Sorry!!! this movie already exists in db..");
-          //   cb(null,"Sorry!!! this movie already exists in db..")
-          // }
         });
       }
-      
-      // helpers.fetchMovieVideosFromApi(videoId, (error, movieVideoObj) => {
-      //   // console.log(videoId);
-      //   // console.log(movieVideoObj);
-      //   if(movieVideoObj && movieVideoObj.results) {
-      //     trailer = movieVideoObj['results'][0]['key'];
-      //     console.log(trailer);
-      //     Movie.Movie.update({ videoId: videoId }, { $set: { trailer: trailer }}, function (err, doc) {
-      //       if (err) throw err;
-      //       console.log("movies trailer saved successfully in database.......")
-      //     });
-      //   }
-      // });
+    });
+    helpers.fetchMovieVideosFromApi(videoId, (error, movieVideoObj) => {
+      if(movieVideoObj && movieVideoObj.results) {
+        trailer = movieVideoObj['results'][0]['key'];
+        console.log(trailer);
+        Movie.Movie.update({ videoId: videoId }, { $set: { trailer: trailer }}, function (err, doc) {
+          if (err) {
+            cb(err,null);
+          }
+          console.log("movies trailer saved successfully in database.......")
+          cb(null,"movies trailer saved successfully in database.......")
+        });
+      }
     });
   });
 }
@@ -58,5 +54,23 @@ module.exports.getDataFromDB = function(cb) {
       cb(err,null);
     }
     cb(null,results);
+  });
+}
+
+module.exports.checkByNameinDB = function(moviename,cb) {
+  Movie.Movie.find({title: moviename}, function (err, record) {
+    if (err) {
+      cb(err,null);
+    }
+    if(record.length === 0){
+      var queryString = { videoId: Math.floor(Math.random() * 1000) , title: moviename, vote:0, image:'', overview:'It should be nice movie I guesss...', release_date:'', homepage:'', productionCompanies:[], trailer:'' };
+      Movie.Movie.create(queryString, function (err, doc) {
+        if (err) {
+          cb(err,null);
+        }
+        console.log("custom movie saved successfully in database.......");
+        cb(null,"custom movie saved successfully in database.......")
+      });
+    } 
   });
 }

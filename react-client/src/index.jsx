@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import List from './components/List.jsx';
 import ListDetail from './components/ListDetail.jsx';
+import Search from './components/Search.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class App extends React.Component {
       type: 'GET',
       dataType: 'json',
       success: (data) => {
-        console.log(data);
+        //console.log(data);
         this.setState({
           movies: data
         })
@@ -30,18 +31,44 @@ class App extends React.Component {
     });
   }
 
-  handleClick(movie){
-    console.log(movie);
-    this.setState({
-      movie: movie
+  handleAddMovie(moviename){
+    $.ajax({
+      url: '/addmovie', 
+      type: 'POST',
+      data: {name: moviename},
+      success: () => {
+        this.componentDidMount();
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
     });
-    return (<ListDetail movie={this.state.movie}/>)
+  }
+
+  handleSearchClick(searchVal){
+    if(searchVal !== ''){
+      var movies = this.state.movies;
+      var filterMovies = movies.filter((movieObj) => {
+        return movieObj['title'].indexOf(searchVal) !== -1;
+      });
+      this.setState({
+        movies: filterMovies
+      });
+    } else {
+      this.setState({
+        movies: this.state.movies
+      });
+    }
   }
 
   render () {
     return (<div>
       <h1>Movie Collector</h1>
-      <List handleClick={this.handleClick.bind(this)} movies={this.state.movies}/>
+      <input id="addmovie" type="text" placeholder="Add Movie..."/>
+      &nbsp;<button onClick={(e) => this.handleAddMovie(document.getElementById("addmovie").value)}>Add Movie</button>
+      <br/><br/>
+      <Search handleSearchClick={this.handleSearchClick.bind(this)}/>
+      <List movies={this.state.movies}/>
     </div>)
   }
 }
